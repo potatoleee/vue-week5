@@ -65,7 +65,7 @@ const app = Vue.createApp({
           this.loadingItem = product_id;
           axios.post(`${api_url}/api/${api_path}/cart`,{data})//{data:data}同名可以縮寫
             .then(res => {
-              console.log("加入購物車",res.data);
+              alert(res.data.message);
               this.$refs.productModal.hide();
               this.getCartList();
               this.loadingItem = "";//清空loading暫存
@@ -104,7 +104,7 @@ const app = Vue.createApp({
           this.loadingItem = cartItem.id;
           axios.delete(`${api_url}/api/${api_path}/cart/${cartItem.id}`)//{data:data}同名可以縮寫
             .then(res => {
-              console.log("刪除購物車品項",res.data);
+              alert(res.data.message);
               this.getCartList();
               this.loadingItem = "";
             })
@@ -115,7 +115,7 @@ const app = Vue.createApp({
         deleteAllCartItem() {
           axios.delete(`${api_url}/api/${api_path}/carts`)
             .then(res => {
-              console.log("刪除全部購物車品項",res.data);
+              alert(res.data.message);
               this.getCartList();
             })
             .catch(error => {
