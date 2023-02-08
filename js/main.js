@@ -37,18 +37,15 @@ const app = Vue.createApp({
           axios.get(`${api_url}/api/${api_path}/products/all`)
             .then(res => {
               this.productListData = res.data.products;
-              console.log(this.productListData);
             })
             .catch(error => {
               alert(error.data.message);
             })
         },
         openProductModal(id) {
-          console.log('產品id:',id);
           this.loadingItem = id;
           axios.get(`${api_url}/api/${api_path}/product/${id}`)
           .then(res => {
-            console.log('單一產品列表',res.data.product);
             this.tempProduct = res.data.product;
             this.$refs.productModal.show();
             this.loadingItem = "";//清空loading暫存
@@ -77,7 +74,6 @@ const app = Vue.createApp({
         getCartList() {
           axios.get(`${api_url}/api/${api_path}/cart`)
             .then(res => {
-              console.log("購物車列表",res.data.data);
               this.cart = res.data.data;
             })
             .catch(error => {
@@ -92,7 +88,6 @@ const app = Vue.createApp({
           this.loadingItem = cartItem.id;
           axios.put(`${api_url}/api/${api_path}/cart/${cartItem.id}`,{data})//{data:data}同名可以縮寫
             .then(res => {
-              console.log("更新購物車",res.data);
               this.getCartList();
               this.loadingItem = "";
             })
@@ -129,13 +124,13 @@ const app = Vue.createApp({
         createOrder() {
           axios.post(`${api_url}/api/${api_path}/order`,{data:this.orderData})
               .then(res => {
-                  console.log(res.data);
+                 
                   alert("訂單提交成功");
                   this.$refs.form.resetForm();//清空表單
                   this.getCartList();
               })
               .catch(error => {
-                  console.log(error);
+                alert(error.response.data.message);
                   
               })
       },
@@ -153,7 +148,6 @@ const app = Vue.createApp({
     }, 1000)
     },
 });
-console.log(VueLoading);
 app.use(VueLoading.LoadingPlugin);//loading 以插件方式
 app.component('VForm', VeeValidate.Form);
 app.component('VField', VeeValidate.Field);
