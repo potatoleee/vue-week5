@@ -1,6 +1,14 @@
 export default {
     //當id 變動時，取得遠端資料，並開啟對應modal
-    props:['addToCart','tempProduct'],
+    // props:['tempProduct'],
+    props: {
+      tempProduct: {
+        type: Object,
+        default() {
+          return {};
+        },
+      },
+    },
     template:`
     <div class="modal fade" id="productModal" tabindex="-1" role="dialog"
      aria-labelledby="exampleModalLabel" aria-hidden="true" ref="productModal">
@@ -47,7 +55,6 @@ export default {
     data() {
         return {
             productModal:'',
-            // tempProduct:{},
             qty:1//必須要定義原始值
         }
     },
@@ -58,6 +65,10 @@ export default {
         hide(){
             this.productModal.hide();
         },
+        addToCart() {
+          this.$emit("add-to-cart",this.tempProduct.id, this.qty);
+          this.qty = 1;//再送出購物車後modal內的數量變回1
+        }
     },
     mounted() {
         this.productModal = new bootstrap.Modal(this.$refs.productModal);
